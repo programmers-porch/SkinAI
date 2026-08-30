@@ -1,0 +1,10 @@
+gradio==4.44.0
+pydantic==2.10.6
+fastapi==0.115.6
+starlette==0.41.3
+transformers==4.44.2
+torch==2.8.0
+pillow==10.4.0
+huggingface_hub==0.24.6
+requests
+spaces

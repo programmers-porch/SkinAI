@@ -1,0 +1,52 @@
+"""
+Run this ONCE, locally, before you deploy the Space, to populate the
+examples/ folder with a handful of sample skin-lesion images so users
+have something to click on without needing their own photo.
+
+Usage:
+    pip install datasets pillow
+    python scripts/download_examples.py
+
+This pulls a few images (streaming, no full download) from the public
+"marmal88/skin_cancer" dataset on the Hugging Face Hub and saves them as
+JPEGs into ../examples/. You can also just drop your own sample images
+into that folder instead — any .jpg/.jpeg/.png works.
+"""
+
+import os
+
+from datasets import load_dataset
+
+OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "examples")
+NUM_EXAMPLES = 6
+DATASET_ID = "marmal88/skin_cancer"
+
+
+def main():
+    os.makedirs(OUT_DIR, exist_ok=True)
+    print(f"Streaming a few samples from {DATASET_ID} ...")
+    ds = load_dataset(DATASET_ID, split="test", streaming=True)
+
+    seen_labels = set()
+    count = 0
+    for example in ds:
+        if count >= NUM_EXAMPLES:
+            break
+        img = example.get("image")
+        label = str(example.get("dx", example.get("label", count)))
+        if img is None:
+            continue
+        # try to get a spread of different classes rather than duplicates
+        if label in seen_labels and len(seen_labels) < NUM_EXAMPLES:
+            continue
+        seen_labels.add(label)
+        path = os.path.join(OUT_DIR, f"example_{count:02d}_{label}.jpg")
+        img.convert("RGB").save(path, "JPEG")
+        print(f"  saved {path}")
+        count += 1
+
+    print(f"Done — {count} example image(s) saved to {OUT_DIR}")
+
+
+if __name__ == "__main__":
+    main()
