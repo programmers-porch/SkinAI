@@ -23,11 +23,10 @@ A demo Space with four tabs:
 - **📊 Model Performance** — real test-set metrics (accuracy, per-class
   precision/recall/F1, confusion matrix) for whichever fine-tuned model(s)
   are backing the app, pulled from `assets/`.
-- **ℹ️ About** — what this is, what models it uses, and its limitations.
+- **ℹ️ About**
 
-> ⚠️ **This is a research/portfolio demo, not a medical device.** It does not
-> diagnose anyone with certainty. Always see a licensed dermatologist or
-> doctor for real concerns.
+> ⚠️ **This is a research/portfolio demo, not a medical device.** Always see a licensed dermatologist or
+> doctor if conditions worsen.
 
 ## How it works
 
